@@ -1,0 +1,133 @@
+﻿<UserControl 
+    x:Class="MVVM.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:ViewModels="clr-namespace:MVVM.ViewModels" 
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <ViewModels:MainViewModel/>
+    </UserControl.DataContext>
+
+
+    <Border Padding="10" Width="400" Background="LightYellow" BorderBrush="Black" BorderThickness="1">
+        <StackPanel>
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Избранное" />
+
+                <dxe:SearchControl x:Name="searchControl" Grid.Row="0" Margin="10"
+                                   DockPanel.Dock="Right"
+                                   HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                   FilterCondition="Contains"
+                           >                    
+                    <dxe:SearchControl.ColumnProvider>
+                        <dxe:SelectorEditColumnProvider />
+
+                        <!--<dxe:SelectorEditColumnProvider>
+                            <dxe:SelectorEditColumnProvider.CustomColumns>
+                            </dxe:SelectorEditColumnProvider.CustomColumns>
+                        </dxe:SelectorEditColumnProvider>-->
+                    </dxe:SearchControl.ColumnProvider>
+                </dxe:SearchControl>
+            </DockPanel>
+
+            <dxe:ListBoxEdit Name="lstCars" ItemsSource="{Binding MyList}" Background="yellow"
+                             FilterCriteria="{Binding FilterCriteria, ElementName=searchControl}">
+
+                <dxe:ListBoxEdit.Style>
+                    <Style TargetType="dxe:ListBoxEdit">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </dxe:ListBoxEdit.Style>
+
+                <dxe:ListBoxEdit.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="LightGreen" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </dxe:ListBoxEdit.ItemContainerStyle>
+
+                <dxe:ListBoxEdit.ItemTemplate>
+                    <DataTemplate>
+                        <Grid MinHeight="30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="40" Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <!-- TODO: переделать в свой контрол -->
+                            <ItemsControl Grid.Column="0" VerticalAlignment="Center">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <Button Height="25" Width="25" Padding="0">
+                                    <Image Height="16" Width="16" Source="{dx:SvgImageSource Uri='pack://application:,,,/Resources/window-settings.svg'}" />
+                                </Button>
+
+                                <ItemsControl.Style>
+                                    <Style TargetType="ItemsControl">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type dxe:ListBoxEditItem}}}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.Style>
+                            </ItemsControl>
+
+                            <TextBlock Grid.Column="1" Text="{Binding}" />
+
+                            <!-- TODO: переделать в свой контрол -->
+                            <ItemsControl Grid.Column="2">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+
+                                <Button Height="25" Width="25" Padding="0">
+                                    <Image Height="16" Width="16" Source="{dx:SvgImageSource Uri='pack://application:,,,/Resources/window-settings.svg'}" />
+                                </Button>
+
+                                <Button Height="25" Width="25" Padding="0">
+                                    <Image Height="16" Width="16" Source="{dx:SvgImageSource Uri='pack://application:,,,/Resources/window-settings.svg'}" />
+                                </Button>
+
+                                <ItemsControl.Style>
+                                    <Style TargetType="ItemsControl">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type dxe:ListBoxEditItem}}}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.Style>
+                            </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </dxe:ListBoxEdit.ItemTemplate>
+
+            </dxe:ListBoxEdit>
+        
+        </StackPanel>
+    </Border>
+
+
+</UserControl>

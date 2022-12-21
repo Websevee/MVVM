@@ -1,0 +1,127 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    x:Class="MVVM.Controls.MyItemsControlItemRes"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+                    xmlns:converters="clr-namespace:MVVM.Converters"
+                    xmlns:selectors="clr-namespace:MVVM.Selectors"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:MVVM.Controls" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
+
+    <DataTemplate x:Key="readTemplate">
+        <TextBlock VerticalAlignment="Center">
+            <TextBlock.Text>
+                <MultiBinding Converter="{converters:StringToXamlConverter}">
+                    <Binding RelativeSource="{RelativeSource Mode=Self}"/>
+                    <Binding Path="DataContext.Name" RelativeSource="{RelativeSource AncestorType=local:MyItemsControlItem}"/>
+                    <Binding Path="SearchText" RelativeSource="{RelativeSource AncestorType=local:MyItemsControlItem}" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </DataTemplate>
+
+    <DataTemplate x:Key="editTemplate">
+        <Border FocusManager.FocusedElement="{Binding ElementName=editBox}">
+            <TextBox Name="editBox" VerticalAlignment="Center"
+                     Text="{Binding DataContext.Name, RelativeSource={RelativeSource AncestorType=local:MyItemsControlItem}}"
+                     LostFocus="TextBox_LostFocus"
+                     Loaded="editBox_Loaded"
+                     />
+        </Border>
+
+    </DataTemplate>
+
+
+    <Style TargetType="{x:Type local:MyItemsControlItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MyItemsControlItem}">
+
+                    <Grid MinHeight="30" Name="mainGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="40" Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--TODO: переделать в свой контрол-->
+                        <ItemsControl Grid.Column="0" VerticalAlignment="Center" >
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <Button Height="25" Width="25" Padding="0" Click="PinnedButtonClick">
+                                <Image Height="16" Width="16" Source="{dx:SvgImageSource Uri='pack://application:,,,/Resources/pinned.svg'}" />
+                            </Button>
+
+                            <ItemsControl.Style>
+                                <Style TargetType="ItemsControl">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type dxe:ListBoxEditItem}}}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ItemsControl.Style>
+                        </ItemsControl>
+
+                        <StackPanel Grid.Column="1" 
+                                    Name="PART_Test"
+                                    Orientation="Horizontal">
+                            <ContentPresenter ContentTemplate="{Binding EditTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                        </StackPanel>
+                        
+                        <ItemsControl Grid.Column="2">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <Button Height="25" Width="25" Padding="0" Click="EditButtonClick" Tag="{Binding ItemsSource, ElementName=PART_ListBase}">
+                                <Image Height="16" Width="16" Source="{dx:SvgImageSource Uri='pack://application:,,,/Resources/edit.svg'}" />
+                            </Button>
+
+                            <Button Height="25" Width="25" Padding="0" Click="RemoveButtonClick" Tag="{Binding ItemsSource, ElementName=PART_ListBase}">
+                                <Image Height="16" Width="16" Source="{dx:SvgImageSource Uri='pack://application:,,,/Resources/delete.svg'}" />
+                            </Button>
+
+                            <ItemsControl.Style>
+                                <Style TargetType="ItemsControl">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type dxe:ListBoxEditItem}}}" />
+                                                <Condition Value="True" Binding="{Binding IsEditable, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                            </MultiDataTrigger.Conditions>
+
+                                            <MultiDataTrigger.Setters>
+                                                <Setter Property="Visibility" Value="{Binding IsRead, RelativeSource={RelativeSource AncestorType={x:Type local:MyItemsControlItem}}, Converter={dxmvvm:BooleanToVisibilityConverter}}" />
+                                            </MultiDataTrigger.Setters>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ItemsControl.Style>
+                        </ItemsControl>
+
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="FontWeight" Value="Normal" />
+
+        <Style.Triggers>
+            <DataTrigger Value="True" Binding="{Binding DataContext.IsPinned, RelativeSource={RelativeSource Self}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Setter Property="FontWeight" Value="Bold" />
+            </DataTrigger>
+        </Style.Triggers>
+        
+    </Style>
+
+</ResourceDictionary>

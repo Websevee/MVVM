@@ -1,0 +1,270 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    x:Class="MVVM.Controls.CustomControls"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+                    xmlns:converters="clr-namespace:MVVM.Converters"
+                    xmlns:selectors="clr-namespace:MVVM.Selectors"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local = "clr-namespace:MVVM.Controls">
+
+    <Style TargetType="{x:Type local:MyItemsControl}" BasedOn="{StaticResource {x:Type ItemsControl}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+
+                    <Border Padding="10" Width="400" BorderBrush="Black" BorderThickness="1" Name="TestBorder">
+                        <StackPanel>
+                            <DockPanel Margin="0,0,0,10">
+                                <TextBlock x:Name="PART_Test1" DockPanel.Dock="Left" 
+                                           Text="Избранное" 
+                                           VerticalAlignment="Center" />
+
+                                <dxe:SearchControl x:Name="searchControl" Grid.Row="0" Margin="10"
+                                                   DockPanel.Dock="Right" MinWidth="200"
+                                                   HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                   FilterCondition="Contains" FilterByColumnsMode="Custom"
+                                >
+                                    <dxe:SearchControl.ColumnProvider>
+                                        <dxe:SelectorEditColumnProvider>
+                                            <dxe:SelectorEditColumnProvider.CustomColumns>
+                                                <sys:String>Name</sys:String>
+                                            </dxe:SelectorEditColumnProvider.CustomColumns>
+                                        </dxe:SelectorEditColumnProvider>
+                                    </dxe:SearchControl.ColumnProvider>
+                                </dxe:SearchControl>
+                            </DockPanel>
+
+                            <!--<local:MyListBoxEdit x:Name="PART_ListPinned" AllowCollectionView="True"
+                                                 ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 ItemsSource="{Binding CollectionViewPinned, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 FilterCriteria="{Binding FilterCriteria, ElementName=searchControl}"
+                            >
+
+                                <local:MyListBoxEdit.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.ContainerStyle>
+                                            <Style TargetType="{x:Type GroupItem}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+                                                            <Expander Padding="0" 
+                                                                      BorderThickness="0"
+                                                                      Header="{Binding Name, Converter={converters:DateTimeMinimizeConverter}}"
+                                                                      IsExpanded="True">
+                                                                <ItemsPresenter/>
+                                                            </Expander>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </GroupStyle.ContainerStyle>
+                                    </GroupStyle>
+                                </local:MyListBoxEdit.GroupStyle>
+
+                                <local:MyListBoxEdit.Style>
+                                    <Style TargetType="dxe:ListBoxEdit">
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                    </Style>
+                                </local:MyListBoxEdit.Style>
+
+                                <local:MyListBoxEdit.ItemContainerStyle>
+                                    <Style TargetType="dxe:ListBoxEditItem">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="IsSelected" Value="False" />
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="Transparent" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </local:MyListBoxEdit.ItemContainerStyle>
+
+                            </local:MyListBoxEdit>-->
+
+                            <local:MyListBoxEdit x:Name="PART_ListBase" AllowCollectionView="True"
+                                                 ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 ItemsSource="{Binding CollectionViewBase, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 FilterCriteria="{Binding FilterCriteria, ElementName=searchControl}"
+                            >
+
+                                <local:MyListBoxEdit.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.ContainerStyle>
+                                            <Style TargetType="{x:Type GroupItem}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+                                                            <Expander Padding="0" 
+                                                                      BorderThickness="0"
+                                                                      Header="{Binding Name, Converter={converters:DateTimeMinimizeConverter}}"
+                                                                      IsExpanded="True">
+                                                                <ItemsPresenter/>
+                                                            </Expander>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </GroupStyle.ContainerStyle>
+                                    </GroupStyle>
+                                </local:MyListBoxEdit.GroupStyle>
+
+                                <local:MyListBoxEdit.Style>
+                                    <Style TargetType="dxe:ListBoxEdit">
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                    </Style>
+                                </local:MyListBoxEdit.Style>
+
+                                <local:MyListBoxEdit.ItemContainerStyle>
+                                    <Style TargetType="dxe:ListBoxEditItem">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="IsSelected" Value="False" />
+                                        
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="Transparent" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </local:MyListBoxEdit.ItemContainerStyle>
+
+                            </local:MyListBoxEdit>
+
+                        </StackPanel>
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <local:MyItemsControlItem DataContext="{Binding}" 
+                                              PinnedButtonClick="PinnedButtonClick"
+                                              IsEditable="{Binding IsEditable, RelativeSource={RelativeSource AncestorType=local:MyItemsControl}}" 
+                                              SearchText="{Binding SearchText, ElementName=searchControl}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+
+
+    <!--<Style TargetType="{x:Type local:MyItemsControl}" BasedOn="{StaticResource {x:Type ItemsControl}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+
+                    <Border Padding="10" Width="400" BorderBrush="Black" BorderThickness="1" Name="TestBorder">
+                        <StackPanel>
+                            <DockPanel Margin="0,0,0,10">
+                                <TextBlock DockPanel.Dock="Left" Text="Избранное" VerticalAlignment="Center" />
+
+                                <dxe:SearchControl x:Name="searchControl" Grid.Row="0" Margin="10"
+                                                   DockPanel.Dock="Right" MinWidth="200"
+                                                   HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                   FilterCondition="Contains" FilterByColumnsMode="Custom"
+                                >
+                                    <dxe:SearchControl.ColumnProvider>
+                                        <dxe:SelectorEditColumnProvider>
+                                            <dxe:SelectorEditColumnProvider.CustomColumns>
+                                                <sys:String>Name</sys:String>
+                                            </dxe:SelectorEditColumnProvider.CustomColumns>
+                                        </dxe:SelectorEditColumnProvider>
+                                    </dxe:SearchControl.ColumnProvider>
+                                </dxe:SearchControl>
+                            </DockPanel>
+
+                            <dxe:ListBoxEdit x:Name="lst" AllowCollectionView="True"
+                                                 ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 FilterCriteria="{Binding FilterCriteria, ElementName=searchControl}"
+                            >
+
+                                <dxe:ListBoxEdit.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.ContainerStyle>
+                                            <Style TargetType="{x:Type GroupItem}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+                                                            <Expander Padding="0" 
+                                                                      BorderThickness="0"
+                                                                      Header="{Binding Name, Converter={converters:DateTimeMinimizeConverter}}"
+                                                                      IsExpanded="True">
+                                                                <ItemsPresenter/>
+                                                            </Expander>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </GroupStyle.ContainerStyle>
+                                    </GroupStyle>
+                                </dxe:ListBoxEdit.GroupStyle>
+
+                                <dxe:ListBoxEdit.Style>
+                                    <Style TargetType="dxe:ListBoxEdit">
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                    </Style>
+                                </dxe:ListBoxEdit.Style>
+
+                                <dxe:ListBoxEdit.ItemContainerStyle>
+                                    <Style TargetType="dxe:ListBoxEditItem">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="IsSelected" Value="False" />
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="Transparent" />
+                                            </Trigger>
+                                            --><!--<Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="LightGreen" />
+                                                        </Trigger>--><!--
+                                        </Style.Triggers>
+                                    </Style>
+                                </dxe:ListBoxEdit.ItemContainerStyle>
+
+                            </dxe:ListBoxEdit>
+
+                        </StackPanel>
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <local:MyItemsControlItem DataContext="{Binding}" IsEditable="True" SearchText="{Binding SearchText, ElementName=searchControl}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>-->
+
+    
+    
+</ResourceDictionary>
